@@ -12,7 +12,7 @@ drawer.open = !drawer.open;
 
 
  
-
+//Function that Hides all screens
 const hide = () => {
     let views = document.querySelectorAll("div.view");
     for(let i = 0; i<views.length; i++){
@@ -20,7 +20,7 @@ const hide = () => {
     }
 };
 
-
+//Add click events to all options in drawer
 let items = document.querySelectorAll("aside.mdc-drawer a.mdc-list-item");
 for(let i = 0; i<items.length; i++){
     items[i].addEventListener("click", event => {
@@ -31,8 +31,14 @@ for(let i = 0; i<items.length; i++){
         
     });
 }
+
+//event listener to hide all screens on load , so it can display properly.
 window.addEventListener("load", (e) =>{
     hide();
     let home = document.querySelector("aside.mdc-drawer a.mdc-list-item");
     home.style.display = "block";
-})
+});
+
+document.querySelector("#gitHubTab").addEventListener("click", event => {
+    window.open("https://chrisagrams.github.io/", '_blank');
+});
