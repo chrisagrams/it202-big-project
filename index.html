@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" class="mdc-typography">
+    <head>
+    <meta charset="UTF-8">
+    <title>GasPrice</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root{
+                --mdc-theme-primary: #D1594C;
+                --mdc-theme-primary-variant: #3700B3;
+                --mdc-theme-secondary: #03DAC6;
+                --mdc-theme-background: #121212;
+                --mdc-theme-surface: #212121;
+                --mdc-theme-error: #CF6679;
+            
+        }
+           
+        html {
+          height: 100%;
+        }
+
+        body {
+          display: -webkit-box;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+                  flex-direction: column;
+          min-height: 100%;
+          margin: 0;
+          background-color: var(--mdc-theme-background);  
+          
+        }
+
+        .demo-body {
+          padding: 0;
+          margin: 0;
+          box-sizing: border-box;
+        }
+
+        .demo-main {
+          padding-left: 16px;
+          padding-bottom: 16px;
+          overflow: auto;
+        }
+
+        .app-drawer-layout {
+          display: -webkit-box;
+          display: flex;
+          -webkit-box-flex: 1;
+                  flex: 1;
+        }
+        .app-drawer-layout .mdc-drawer--dismissible {
+          top: 64px;
+          height: calc(100% - 64px);
+          background-color: var(--mdc-theme-background);  
+        }
+
+        .main-content {
+          display: -webkit-box;
+          display: flex;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+                  flex-direction: column;
+          -webkit-box-align: center;
+                  align-items: center;
+          -webkit-box-pack: center;
+                  justify-content: center;
+          -webkit-box-flex: 1;
+                  flex: 1;
+          padding: 1.5rem;
+          background-color: var(--mdc-theme-background);
+        }
+
+        .demo__title {
+          display: -webkit-box;
+          display: flex;
+          -webkit-box-align: center;
+                  align-items: center;
+          margin-bottom: 10px;
+          font-size: 18px;
+          white-space: nowrap;
+          color: #FFFFFF;
+        }
+        .demo__title-icon {
+          padding-left: .75rem;
+            color: #FFFFFF;
+        }
+        .demo__subtitle {
+          color: #888;
+          font-size: 1rem;
+        }
+        .mdc-top-app-bar{
+            background-color: var(--mdc-theme-surface);
+        }
+        .mdc-drawer .mdc-list-item__graphic{
+            color: rgba(255,255,255,0.6);
+        }
+        .mdc-list-item__text{
+            color: #FFFFFF;
+        }
+        .view{
+            display: block;
+        } 
+        h1{
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <header class="mdc-top-app-bar mdc-elevation--z4">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <button class="mdc-top-app-bar__navigation-icon mdc-icon-button material-icons mdc-ripple-upgraded--unbounded mdc-ripple-upgraded" href="#" style="--mdc-ripple-fg-size:28px; --mdc-ripple-fg-scale:1.71429; --mdc-ripple-left:10px; --mdc-ripple-top:10px;">menu</button>
+                <a class="mdc-top-app-bar__title" target="_blank" style="color: inherit;">GasPrice</a>
+            </section>
+        </div>
+    </header>
+    
+    <div class="app-drawer-layout mdc-top-app-bar--fixed-adjust">
+    <aside class="mdc-drawer mdc-drawer--dismissible demo-drawer mdc-elevation--z4">
+    <nav class="mdc-drawer__drawer">
+    <nav class="mdc-drawer__content">
+    <div id="icon-with-text-demo" class="mdc-list">
+    <a class="mdc-list-item mdc-list-item--selected demo-drawer-list-item" href="#home" tabindex="-1" aria-selected="true">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">home</i>
+        <span class="mdc-list-item__text">Home</span>
+    </a>
+    <a class="mdc-list-item demo-drawer-list-item" href="#location" tabindex="-1">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">location_on</i>
+       <span class="mdc-list-item__text">Location</span>
+    </a>
+    <a class="mdc-list-item demo-drawer-list-item" href="#graphs" tabindex="-1">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">bar_chart</i>
+       <span class="mdc-list-item__text">Graphs</span>
+    </a>
+    
+    <hr class="mdc-list-divider">
+      <a class="mdc-list-item demo-drawer-list-item" href="#about" tabindex="-1">
+    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">info</i>
+       <span class="mdc-list-item__text">About</span>
+    </a>
+    </div>
+    </nav>
+    </nav>
+    </aside>
+        
+        
+        
+   <main class="mdc-drawer-app-content main-content">
+       
+    <div id="home" class="view">
+        <div class="demo-image">
+            <img src="img/gasPrice.svg" alt="GasPrice Logo" height="200" width="200">    
+        </div>
+        <div class="demo__title">Click the menu button</div>
+        <div class="demo__subtitle"> at the top left of the page to begin</div>
+    </div>    
+        
+        
+    <div id="location" class="view">
+        <h1>location</h1>
+    </div>
+    <div id="graphs" class="view">
+        <h1>graphs</h1>
+    </div>
+    <div id="about" class="view">
+        <h1>Hello World</h1>
+    </div>  
+               
+         
+    </main>
+        
+    </div>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script src="script.js" id="rendered-js"></script>
+    </body>
+</html>
+    
+    
