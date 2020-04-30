@@ -54,6 +54,36 @@ let locations = [];
 let selectedRegion = "";
 let userLocation = {lat: 0, lng: 0};
 
+
+
+const grabChartData = (x) => {
+    let locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=" + locations[x].category_id + "%22";
+    fetch(locationsURL)
+    .then(response=> response.json())
+    .then(data =>{
+        console.log(data);
+        console.log(data.category.childcategories[0].name);
+        fetch("https://api.eia.gov/category/?api_key="+apiKey+"&category_id=" + data.category.childcategories[0].category_id + "%22")
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            console.log(data.category.childcategories[0].name);
+            fetch("https://api.eia.gov/category/?api_key="+apiKey+"&category_id=" + data.category.childcategories[0].category_id + "%22")
+            .then(response =>response.json())
+            .then(data=>{
+                console.log(data);
+                console.log(data.category.childseries[0].series_id);
+                fetch("https://api.eia.gov/series/?api_key="+apiKey+"&series_id=" + data.category.childseries[0].series_id)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    console.log(data.series[0].data);
+                })
+            })
+        })
+    })
+}
+
 fetch(locationsURL)
 .then(response => response.json())
 .then(data =>{
@@ -68,7 +98,10 @@ fetch(locationsURL)
         datalist.append(option);
     }
     
+    grabChartData(0);
 });
+
+
 
 let mapCenter = {lat: 40.674, lng: -73.945};
 
@@ -85,10 +118,22 @@ const redrawMap = (selectedRegion) =>{
         initMap();
     });
 }
+
+//called from "ok" and "geolocation" to make the chart fetch request based upon location
+const grabLocationChartData = () => {
+    let i = 0;
+    while(locations[i].name != selectedRegion){
+        i++;
+    }
+    grabChartData(i);
+}
+
 //map ok button handler
 document.querySelector("#mapOkButton").addEventListener('click', (e) =>{
     selectedRegion = document.querySelector("#regionInput").value;
     redrawMap(selectedRegion);
+   
+    grabLocationChartData();
 });
 
 
@@ -106,6 +151,7 @@ const showposition = (position) => {
         console.log(data.results[0].address_components[5].long_name);
         document.querySelector("#regionInput").value = data.results[0].address_components[5].long_name;
         redrawMap(document.querySelector("#regionInput").value);
+        grabLocationChartData();
     })
 }
 
@@ -211,3 +257,45 @@ function initMap() {
 
 //this fetches lat and long based on string name
 // fetch("https://maps.googleapis.com/maps/api/geocode/json?address=US&key=AIzaSyBg3ypNQcp81zKIARzFCwDj6msMX6HyJJE").then((response)=>{console.log(response.json())});
+ 
+ 
+//produce the graphs
+const createChart = () => {
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+}
