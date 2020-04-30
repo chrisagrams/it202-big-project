@@ -35,7 +35,7 @@ for(let i = 0; i<items.length; i++){
 //event listener to hide all screens on load , so it can display properly.
 window.addEventListener("load", (e) =>{
     hide();
-    let home = document.querySelector("aside.mdc-drawer a.mdc-list-item");
+    let home = document.querySelector("#home");
     home.style.display = "block";
 });
 
