@@ -1,4 +1,4 @@
-    // Instantiate MDC Drawer
+// Instantiate MDC Drawer
 const drawerEl = document.querySelector('.mdc-drawer');
 const drawer = new mdc.drawer.MDCDrawer.attachTo(drawerEl);
 
@@ -10,6 +10,7 @@ topAppBar.listen('MDCTopAppBar:nav', () => {
 drawer.open = !drawer.open;
 });
 
+
 ///Instantiate MDC Snackbar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
@@ -17,13 +18,22 @@ const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snack
 
 let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
 let datapoints = [12, 19, 3, 5, 2, 3]; 
+let average = 0;
+
+let labels2 = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+let datapoints2 = [12, 19, 3, 5, 2, 3]; 
+let average2 = 0;
+
+let lastestPrice = 0;
 
 const createChart = () => {
 // document.querySelector("#myChart").styles = "height:500px; width:500px"
 var ctx = document.getElementById('myChart').getContext('2d');
 // ctx.canvas.width  = document.querySelector("main").offsetWidth;
 // ctx.canvas.height = document.querySelector("main").offsetHeight;
-  
+
+    
+
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -49,17 +59,139 @@ var myChart = new Chart(ctx, {
             fill: false,
             data: datapoints,
             borderWidth: 1
-        }]
+        }, {
+            label: 'All-time Average',
+            data: [{x:labels[0],y:average},
+                  {x:labels[labels.length-1], y:average}
+                  ],
+
+            // Changes this dataset to become a line
+            type: 'line',
+            fill: false,
+            borderColor: 'rgba(54, 162, 235, 1)'
+        }
+        ]
     },
     options: {
+           
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero:true
+                    beginAtZero:false
                 }
             }]
         },
+        
         plugins: {
+            annotation: {
+                annotations: [
+                {
+                            type: 'line',
+                            mode: 'vertical',
+                            scaleID: 'x-axis-0',
+                            value: average,
+                            borderColor: 'red',
+                            borderWidth: 2,
+                        }
+                    ]
+            },
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'x'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+                    speed: 100,
+                    sensitivity: 1,
+
+                    // Zooming directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'x',
+                }
+            }
+        }
+    }
+});
+}
+
+const createChart2 = () => {
+// document.querySelector("#myChart").styles = "height:500px; width:500px"
+var ctx = document.getElementById('myChart2').getContext('2d');
+// ctx.canvas.width  = document.querySelector("main").offsetWidth;
+// ctx.canvas.height = document.querySelector("main").offsetHeight;
+
+    
+
+var myChart2 = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels2,
+        datasets: [{
+            label: 'Dollars Per Gallon',
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            fill: false,
+            data: datapoints2,
+            borderWidth: 1
+        }, {
+            label: '3-Month Average',
+            data: [{x:labels2[0],y:average2},
+                  {x:labels2[labels2.length-1], y:average2}
+                  ],
+
+            // Changes this dataset to become a line
+            type: 'line',
+            fill: false,
+            borderColor: 'rgba(54, 162, 235, 1)'
+        }
+        ]
+    },
+    options: {
+           
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        
+        plugins: {
+            annotation: {
+                annotations: [
+                {
+                            type: 'line',
+                            mode: 'vertical',
+                            scaleID: 'x-axis-0',
+                            value: average2,
+                            borderColor: 'red',
+                            borderWidth: 2,
+                        }
+                    ]
+            },
             zoom: {
                 // Container for pan options
                 pan: {
@@ -106,6 +238,7 @@ for(let i = 0; i<items.length; i++){
         document.querySelector(target).style.display = "block";
         drawer.open = false;
         createChart();
+        createChart2();
     });  
     } else{
     items[i].addEventListener("click", event => {
@@ -214,13 +347,50 @@ const grabData = (i) => {
             console.log(seriesData);
             labels = [];
             datapoints = [];
+            let sum = 0;
             for(let x = seriesData.length-1; x>=0; x--){
                 let selected = seriesData[x];
                 labels.push(selected[0]);
                 datapoints.push(selected[1]);
+                sum+=selected[1];
             }
+            average = sum/seriesData.length;
+            console.log("Average: "+ average);
+            latestPrice= seriesData[seriesData.length-1][1];
+            console.log("Current price: "+ latestPrice);
+            if(latestPrice<=average)
+                console.log("Now is a good time to buy gas.");
+            else
+                console.log("Now is NOT a good time to buy gas.");
             console.log(labels);
             console.log(datapoints);
+            document.querySelector("#graphHeader").textContent = selectedRegion + "'s Weekly Average Price Per Gallon";
+            
+            labels2 = [];
+            datapoints2 = [];
+            let sum2 = 0;
+            
+            for(let y = 12; y>=0; y--){
+                let selected = seriesData[y];
+                labels2.push(selected[0]);
+                datapoints2.push(selected[1]);
+                sum2+=selected[1];
+            }
+            average2 = sum2/datapoints2.length;
+            
+            let secondaryHeader = document.querySelector("#graphSecondary");
+            if(latestPrice<average && latestPrice<average2){
+                secondaryHeader.textContent = "Now is a great time to buy gas!";
+            }
+            else if(latestPrice<average){
+                secondaryHeader.textContent = "Now is a good time to buy gas.";
+            }
+            else if(lastestPrice>=average && lastestPrice<average2){
+                secondaryHeader.textContent = "Now is an ok time to buy gas.";
+            }
+            else{
+                secondaryHeader.textContent = "Now is not a good time to buy gas.";
+            }
         })
     })
 }
@@ -324,6 +494,7 @@ const determineClosest = () => {
     document.querySelector("#selectedRegionHeader").textContent = distances[0].knownGeo.name;
     document.querySelector("#snackbarText").textContent = "Geolocation found! You are about " + distances[0].distance + " miles away from the closest city.";
     snackbar.open();
+    grabLocationChartData();
     
 }
 

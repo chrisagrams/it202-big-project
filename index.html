@@ -204,15 +204,25 @@
 
     <div id="graphs" class="view">
         <h1 id="graphHeader">graphs</h1>
-        
+        <h2 id="graphSecondary"></h2>
         
         <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
+                <div class="demo__subtitle" style="margin-top: 20px; margin-left: 20px;">Data from 2006 till today.</div>
                 <div style="margin:40px">
                    <canvas id="myChart" width="500" height="500" style="height:500px; width:500px;"></canvas>
                 </div>
             </div>
         </div>
+        
+        <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
+            <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
+                <div class="demo__subtitle" style="margin-top: 20px; margin-left: 20px;">Data from the last 3 months.</div>
+                <div style="margin:40px">
+                   <canvas id="myChart2" width="500" height="500" style="height:500px; width:500px;"></canvas>
+                </div>
+            </div>
+       </div> 
         
     </div>
     <div id="about" class="view">
@@ -250,7 +260,7 @@
         
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" integrity="sha256-Olnajf3o9kfkFGloISwP1TslJiWUDd7IYmfC+GdCKd4=" crossorigin="anonymous"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.4"></script>
     <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script>
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
