@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        
     <style>
         :root{
                 --mdc-theme-primary: #D1594C;
@@ -138,7 +139,7 @@
     <i class="material-icons mdc-list-item__graphic" aria-hidden="true">location_on</i>
        <span class="mdc-list-item__text">Location</span>
     </a>
-    <a class="mdc-list-item demo-drawer-list-item" href="#graphs" tabindex="-1">
+    <a id="graphButton" class="mdc-list-item demo-drawer-list-item" href="#graphs" tabindex="-1">
     <i class="material-icons mdc-list-item__graphic" aria-hidden="true">bar_chart</i>
        <span class="mdc-list-item__text">Graphs</span>
     </a>
@@ -202,8 +203,17 @@
         </div>
 
     <div id="graphs" class="view">
-        <h1>graphs</h1>
-        <canvas id="myChart" width="400" height="400"></canvas>
+        <h1 id="graphHeader">graphs</h1>
+        
+        
+        <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
+            <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
+                <div style="margin:40px">
+                   <canvas id="myChart" width="500" height="500" style="height:500px; width:500px;"></canvas>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <div id="about" class="view">
         <div class="mdc-card mdc-elevation--z2">
@@ -221,8 +231,21 @@
             </div>
         </div>
     </div>  
-               
-         
+
+       <div class="mdc-snackbar">
+              <div class="mdc-snackbar__surface">
+                  <div id="snackbarText" class="mdc-snackbar__label" role="status" aria-live="polite">
+                  Hello World!
+                  </div>
+                  <div class="mdc-snackbar__actions">
+                      <button type="button" class="mdc-button mdc-snackbar__action">
+                      <div class="mdc-button__ripple"></div>
+                      <span class="mdc-button__label">Ok</span>
+                      </button>
+                  </div>
+             </div>
+           </div>   
+            
     </main>
         
     </div>
