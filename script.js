@@ -13,18 +13,23 @@ drawer.open = !drawer.open;
 ///Instantiate MDC Snackbar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
+
+
+let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+let datapoints = [12, 19, 3, 5, 2, 3]; 
+
 const createChart = () => {
 // document.querySelector("#myChart").styles = "height:500px; width:500px"
 var ctx = document.getElementById('myChart').getContext('2d');
 // ctx.canvas.width  = document.querySelector("main").offsetWidth;
 // ctx.canvas.height = document.querySelector("main").offsetHeight;
+  
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: labels,
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Dollars Per Gallon',
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -41,17 +46,43 @@ var myChart = new Chart(ctx, {
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)'
             ],
+            fill: false,
+            data: datapoints,
             borderWidth: 1
         }]
     },
     options: {
-        responsive: true,
         scales: {
             yAxes: [{
                 ticks: {
-                    beginAtZero: true
+                    beginAtZero:true
                 }
             }]
+        },
+        plugins: {
+            zoom: {
+                // Container for pan options
+                pan: {
+                    // Boolean to enable panning
+                    enabled: true,
+
+                    // Panning directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow panning in the y direction
+                    mode: 'x'
+                },
+
+                // Container for zoom options
+                zoom: {
+                    // Boolean to enable zooming
+                    enabled: true,
+                    speed: 100,
+                    sensitivity: 1,
+
+                    // Zooming directions. Remove the appropriate direction to disable 
+                    // Eg. 'y' would only allow zooming in the y direction
+                    mode: 'x',
+                }
+            }
         }
     }
 });
@@ -112,6 +143,10 @@ let selectedRegion = "";
 let userLocation = {lat: 0, lng: 0};
 let closestCity = [];
 
+
+
+
+
 //Below was the code for the wrong api. Whoops
 //
 //const locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=245143%22";
@@ -164,6 +199,31 @@ let closestCity = [];
 //     grabChartData(0);
 // });
 
+const grabData = (i) => {
+    let locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=" + locations[i].category_id + "%22";
+    fetch(locationsURL)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        let childseries = data.category.childseries[2].series_id;
+        fetch("https://api.eia.gov/series/?api_key="+apiKey+"&series_id="+ childseries)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let seriesData = data.series[0].data;
+            console.log(seriesData);
+            labels = [];
+            datapoints = [];
+            for(let x = seriesData.length-1; x>=0; x--){
+                let selected = seriesData[x];
+                labels.push(selected[0]);
+                datapoints.push(selected[1]);
+            }
+            console.log(labels);
+            console.log(datapoints);
+        })
+    })
+}
 
 const locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=240691";
 
@@ -227,7 +287,7 @@ const grabLocationChartData = () => {
     while(locations[i].name != selectedRegion){
         i++;
     }
-    grabChartData(i);
+    grabData(i);
 }
 
 //map ok button handler
@@ -257,6 +317,7 @@ const determineClosest = () => {
     console.log(distances);
     console.log("Closest city: "+ distances[0]);
     closestCity = distances[0];
+    selectedRegion = closestCity.knownGeo.name;
     mapCenter.lat = distances[0].knownGeo.lat;
     mapCenter.lng = distances[0].knownGeo.lng;
     initMap();    
