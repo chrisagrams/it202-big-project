@@ -114,6 +114,10 @@
         h3{
             color: #FFFFFF;
         }
+        
+        .mdc-snackbar__action:not(:disabled) {
+            color: var(--mdc-theme-primary);
+        }
     </style>
 </head>
 <body>
@@ -178,10 +182,13 @@
                  
                     <h2 id="selectedRegionHeader" class="demo-card__title mdc-typography mdc-typography--headline6" style="color: #FFFFFF; padding-left: 10px; margin-top: 8px; margin-bottom: 2px;">U.S.</h2>
                     <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2" style="color: #FFFFFF; padding-left: 10px; margin-top: 0px; margin-bottom: 8px;">Use the dropdown below to select a region,</h3></div>
-                    <input id="regionInput" class="mdc-text-field__input" list="regions">
+                <div class="mdc-elevation--z4" style="margin: 20px; margin-top: 0px; background-color: #313131">
+                    <input id="regionInput" class="mdc-text-field__input" style="color: #FFFFFF; margin-left: 5px; margin-right: 5px" list="regions">
                      <datalist id="regions">
     
                      </datalist>
+                </div>    
+                
                 <div class="demo-card__secondary mdc-typography mdc-typography--body2" style="color: #FFFFFF; padding-left: 10px; margin-top: 8px; margin-bottom: 2px;">Then press OK to set your location.</div>
             </div><div class="mdc-card__actions">
             <div class="mdc-card__action-icons">
@@ -254,7 +261,33 @@
                       </button>
                   </div>
              </div>
-           </div>   
+        </div>
+       
+       
+       <div class="mdc-dialog">
+          <div class="mdc-dialog__container">
+            <div class="mdc-dialog__surface"
+              role="alertdialog"
+              aria-modal="true"
+              aria-labelledby="my-dialog-title"
+              aria-describedby="my-dialog-content">
+              <!-- Title cannot contain leading whitespace due to mdc-typography-baseline-top() -->
+              <h2 class="mdc-dialog__title" id="my-dialog-title" style="color: white"><!--
+             -->Heads Up!<!--
+           --></h2>
+              <div class="mdc-dialog__content" id="my-dialog-content" style="color: white">
+                If you want to see content tailored to your region, go to the location screen and select your region.
+              </div>
+              <footer class="mdc-dialog__actions">
+                <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">
+                  <div class="mdc-button__ripple"></div>
+                  <span class="mdc-button__label">Ok</span>
+                </button>
+              </footer>
+            </div>
+          </div>
+          <div class="mdc-dialog__scrim"></div>
+       </div>
             
     </main>
         

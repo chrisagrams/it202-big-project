@@ -14,6 +14,8 @@ drawer.open = !drawer.open;
 ///Instantiate MDC Snackbar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
+//Instantiate MDC Popup
+const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
 
 
 let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
@@ -25,6 +27,8 @@ let datapoints2 = [12, 19, 3, 5, 2, 3];
 let average2 = 0;
 
 let lastestPrice = 0;
+
+let initialFetch = false;
 
 const createChart = () => {
 // document.querySelector("#myChart").styles = "height:500px; width:500px"
@@ -233,6 +237,10 @@ let items = document.querySelectorAll("aside.mdc-drawer a.mdc-list-item");
 for(let i = 0; i<items.length; i++){
     if(i==2){ //special event listener for graph button
       items[i].addEventListener("click", event => {
+          if(!initialFetch){
+              initialFetch= true;
+              dialog.open();
+          }
         hide();
         let target = items[i].getAttribute("href");
         document.querySelector(target).style.display = "block";
@@ -256,6 +264,8 @@ window.addEventListener("load", (e) =>{
     hide();
     let home = document.querySelector("#home");
     home.style.display = "block";
+    selectedRegion = locations[0].name;
+    grabLocationChartData();
 });
 
 document.querySelector("#gitHubTab").addEventListener("click", event => {
@@ -391,6 +401,9 @@ const grabData = (i) => {
             else{
                 secondaryHeader.textContent = "Now is not a good time to buy gas.";
             }
+            
+            document.querySelector("#snackbarText").textContent = "Data successfully updated!";
+            snackbar.open();
         })
     })
 }
@@ -463,9 +476,23 @@ const grabLocationChartData = () => {
 //map ok button handler
 document.querySelector("#mapOkButton").addEventListener('click', (e) =>{
     selectedRegion = document.querySelector("#regionInput").value;
-    redrawMap(selectedRegion);
-   
-    grabLocationChartData();
+    let inLocations = false;
+    
+    for (let i = 0; i<locations.length; i++){
+        if(selectedRegion == locations[i].name && !inLocations){
+            inLocations = true;
+        }
+    }
+    
+    if(inLocations){
+        redrawMap(selectedRegion);
+        grabLocationChartData();
+        initialFetch = true;
+    }
+    else{
+        document.querySelector("#snackbarText").textContent = "You must enter a valid region!";
+        snackbar.open();
+    }
 });
 
 
