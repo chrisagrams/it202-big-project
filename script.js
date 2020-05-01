@@ -259,6 +259,19 @@ for(let i = 0; i<items.length; i++){
     }
 }
 
+document.querySelector("#dataLink").addEventListener("click", event => {
+     if(!initialFetch){
+              initialFetch= true;
+              dialog.open();
+          }
+    
+        hide();
+        let target = document.querySelector("#dataLink").getAttribute("href");
+        document.querySelector(target).style.display = "block";
+        createChart();
+        createChart2();
+});
+
 //event listener to hide all screens on load , so it can display properly.
 window.addEventListener("load", (e) =>{
     hide();
