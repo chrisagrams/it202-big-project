@@ -10,12 +10,15 @@ topAppBar.listen('MDCTopAppBar:nav', () => {
 drawer.open = !drawer.open;
 });
 
-
 ///Instantiate MDC Snackbar
 const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
 
 //Instantiate MDC Popup
 const dialog = new mdc.dialog.MDCDialog(document.querySelector('.mdc-dialog'));
+
+if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register('./sw.js');
+}
 
 
 let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
