@@ -30,198 +30,201 @@ let lastestPrice = 0;
 
 let initialFetch = false;
 
+
+var geocodeDB = new Dexie("geocode_database");
+geocodeDB.version(1).stores({
+    knownGeo: 'name, lat, lng'
+});
+
 const createChart = () => {
-// document.querySelector("#myChart").styles = "height:500px; width:500px"
-var ctx = document.getElementById('myChart').getContext('2d');
-// ctx.canvas.width  = document.querySelector("main").offsetWidth;
-// ctx.canvas.height = document.querySelector("main").offsetHeight;
+    // document.querySelector("#myChart").styles = "height:500px; width:500px"
+    var ctx = document.getElementById('myChart').getContext('2d');
+    // ctx.canvas.width  = document.querySelector("main").offsetWidth;
+    // ctx.canvas.height = document.querySelector("main").offsetHeight;
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Dollars Per Gallon',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                fill: false,
+                data: datapoints,
+                borderWidth: 1
+            }, {
+                label: 'All-time Average',
+                data: [{x:labels[0],y:average},
+                      {x:labels[labels.length-1], y:average}
+                      ],
 
-    
-
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Dollars Per Gallon',
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            fill: false,
-            data: datapoints,
-            borderWidth: 1
-        }, {
-            label: 'All-time Average',
-            data: [{x:labels[0],y:average},
-                  {x:labels[labels.length-1], y:average}
-                  ],
-
-            // Changes this dataset to become a line
-            type: 'line',
-            fill: false,
-            borderColor: 'rgba(54, 162, 235, 1)'
-        }
-        ]
-    },
-    options: {
-           
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:false
-                }
-            }]
+                // Changes this dataset to become a line
+                type: 'line',
+                fill: false,
+                borderColor: 'rgba(54, 162, 235, 1)'
+            }
+            ]
         },
-        
-        plugins: {
-            annotation: {
-                annotations: [
-                {
-                            type: 'line',
-                            mode: 'vertical',
-                            scaleID: 'x-axis-0',
-                            value: average,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                        }
-                    ]
+        options: {
+
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    }
+                }]
             },
-            zoom: {
-                // Container for pan options
-                pan: {
-                    // Boolean to enable panning
-                    enabled: true,
 
-                    // Panning directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'x'
+            plugins: {
+                annotation: {
+                    annotations: [
+                    {
+                                type: 'line',
+                                mode: 'vertical',
+                                scaleID: 'x-axis-0',
+                                value: average,
+                                borderColor: 'red',
+                                borderWidth: 2,
+                            }
+                        ]
                 },
-
-                // Container for zoom options
                 zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-                    speed: 100,
-                    sensitivity: 1,
+                    // Container for pan options
+                    pan: {
+                        // Boolean to enable panning
+                        enabled: true,
 
-                    // Zooming directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow zooming in the y direction
-                    mode: 'x',
+                        // Panning directions. Remove the appropriate direction to disable 
+                        // Eg. 'y' would only allow panning in the y direction
+                        mode: 'x'
+                    },
+
+                    // Container for zoom options
+                    zoom: {
+                        // Boolean to enable zooming
+                        enabled: true,
+                        speed: 100,
+                        sensitivity: 1,
+
+                        // Zooming directions. Remove the appropriate direction to disable 
+                        // Eg. 'y' would only allow zooming in the y direction
+                        mode: 'x',
+                    }
                 }
             }
         }
-    }
-});
+    });
 }
 
 const createChart2 = () => {
-// document.querySelector("#myChart").styles = "height:500px; width:500px"
-var ctx = document.getElementById('myChart2').getContext('2d');
-// ctx.canvas.width  = document.querySelector("main").offsetWidth;
-// ctx.canvas.height = document.querySelector("main").offsetHeight;
+    // document.querySelector("#myChart").styles = "height:500px; width:500px"
+    var ctx = document.getElementById('myChart2').getContext('2d');
+    // ctx.canvas.width  = document.querySelector("main").offsetWidth;
+    // ctx.canvas.height = document.querySelector("main").offsetHeight;
 
-    
 
-var myChart2 = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: labels2,
-        datasets: [{
-            label: 'Dollars Per Gallon',
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            fill: false,
-            data: datapoints2,
-            borderWidth: 1
-        }, {
-            label: '3-Month Average',
-            data: [{x:labels2[0],y:average2},
-                  {x:labels2[labels2.length-1], y:average2}
-                  ],
 
-            // Changes this dataset to become a line
-            type: 'line',
-            fill: false,
-            borderColor: 'rgba(54, 162, 235, 1)'
-        }
-        ]
-    },
-    options: {
-           
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:false
-                }
-            }]
+    var myChart2 = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels2,
+            datasets: [{
+                label: 'Dollars Per Gallon',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                fill: false,
+                data: datapoints2,
+                borderWidth: 1
+            }, {
+                label: '3-Month Average',
+                data: [{x:labels2[0],y:average2},
+                      {x:labels2[labels2.length-1], y:average2}
+                      ],
+
+                // Changes this dataset to become a line
+                type: 'line',
+                fill: false,
+                borderColor: 'rgba(54, 162, 235, 1)'
+            }
+            ]
         },
-        
-        plugins: {
-            annotation: {
-                annotations: [
-                {
-                            type: 'line',
-                            mode: 'vertical',
-                            scaleID: 'x-axis-0',
-                            value: average2,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                        }
-                    ]
+        options: {
+
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:false
+                    }
+                }]
             },
-            zoom: {
-                // Container for pan options
-                pan: {
-                    // Boolean to enable panning
-                    enabled: true,
 
-                    // Panning directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow panning in the y direction
-                    mode: 'x'
+            plugins: {
+                annotation: {
+                    annotations: [
+                    {
+                                type: 'line',
+                                mode: 'vertical',
+                                scaleID: 'x-axis-0',
+                                value: average2,
+                                borderColor: 'red',
+                                borderWidth: 2,
+                            }
+                        ]
                 },
-
-                // Container for zoom options
                 zoom: {
-                    // Boolean to enable zooming
-                    enabled: true,
-                    speed: 100,
-                    sensitivity: 1,
+                    // Container for pan options
+                    pan: {
+                        // Boolean to enable panning
+                        enabled: true,
 
-                    // Zooming directions. Remove the appropriate direction to disable 
-                    // Eg. 'y' would only allow zooming in the y direction
-                    mode: 'x',
+                        // Panning directions. Remove the appropriate direction to disable 
+                        // Eg. 'y' would only allow panning in the y direction
+                        mode: 'x'
+                    },
+
+                    // Container for zoom options
+                    zoom: {
+                        // Boolean to enable zooming
+                        enabled: true,
+                        speed: 100,
+                        sensitivity: 1,
+
+                        // Zooming directions. Remove the appropriate direction to disable 
+                        // Eg. 'y' would only allow zooming in the y direction
+                        mode: 'x',
+                    }
                 }
             }
         }
-    }
-});
+    });
 }
  
 //Function that Hides all screens
@@ -438,24 +441,41 @@ fetch(locationsURL)
 
 let knownGeos = [];
 //this function calls the geocode API to determine the lat and lng of each known location
-const grabAllLocations = (_callback) => {
+const grabAllLocations = () => {
     for (let i =0; i<locations.length; i++){
         if(locations[i].name != "U.S." && !locations[i].name.includes("PADD") && !locations[i].name.includes("less")){
-            console.log(locations[i]);
-            let temp = {name: locations[i].name, lat: 0.0, lng: 0.0};
-            let geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?address="+locations[i].name+"&key=AIzaSyBg3ypNQcp81zKIARzFCwDj6msMX6HyJJE";
-            fetch(geocodeURL)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                temp.lat = data.results[0].geometry.location.lat;
-                temp.lng = data.results[0].geometry.location.lng;
-                console.log(temp);
-                knownGeos.push(temp);
-                determineClosest();
+            geocodeDB.knownGeo.get({name: locations[i].name})
+            .then(value => {
+                if(value==null || value.name != locations[i].name){
+                            
+                    console.log(locations[i]);
+                    let temp = {name: locations[i].name, lat: 0.0, lng: 0.0};
+                    let geocodeURL = "https://maps.googleapis.com/maps/api/geocode/json?address="+locations[i].name+"&key=AIzaSyBg3ypNQcp81zKIARzFCwDj6msMX6HyJJE";
+                    fetch(geocodeURL)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        temp.lat = data.results[0].geometry.location.lat;
+                        temp.lng = data.results[0].geometry.location.lng;
+                        console.log(temp);
+                        geocodeDB.knownGeo.put({name: locations[i].name, lat: data.results[0].geometry.location.lat, lng: data.results[0].geometry.location.lng}).then (function(){
+                          console.log(locations[i].name + " put in DB");
+                          return geocodeDB.knownGeo.get(locations[i].name);
+
+                        }).catch(function(error) {
+                             console.log("DB Error occured");
+                        }); 
+                        knownGeos.push(temp);
+                        determineClosest();
+                    });
+                 } else{
+                     knownGeos.push(value);
+                     determineClosest();
+                 }
             })
+
         }
-        
+  
     }
 
 }
