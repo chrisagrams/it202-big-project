@@ -77,6 +77,8 @@
           -webkit-box-flex: 1;
                   flex: 1;
           padding: 1.5rem;
+          padding-left: 10px;
+          padding-right: 10px;
           background-color: var(--mdc-theme-background);
         }
 
@@ -124,8 +126,13 @@
             color: var(--mdc-theme-primary);
         }
         
-
-        @media screen and (max-device-width: 640px){
+        @media screen and (max-device-width:400px){
+            .mdc-card{
+                width:300px;
+            }
+        }
+        
+        @media screen and (min-device-width: 400px) and (max-device-width: 640px){
             .mdc-card {
                 width: 350px;
             }
@@ -203,7 +210,7 @@
     <div id="location" class="view">
         <div class="demo__title">Location</div>
         <div class="demo__subtitle" style="text-align: center;">Select your region to inspect its gas information <br />(US areas only)</div>
-        <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
+        <div class="mdc-card mdc-elevation--z2" style="margin: auto; margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
 <!--                 <div class="mdc-card__media mdc-card__media--16-9 demo-card__media" style="background-image: url(img/gasPrice.svg);"></div> -->
                 <div id="map" style="height: 300px; width: 100%;"></div>
@@ -228,7 +235,7 @@
             </div>
         </div>
         <div class="demo__subtitle" style="text-align: center;">...Or use your geolocation</div>
-        <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
+        <div class="mdc-card mdc-elevation--z2" style="margin: auto; margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
                 <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2" style="color: #FFFFFF; padding-left: 10px; padding-right: 10px; margin-top: 20px; margin-bottom: 8px;">Press "Get Geolocation" to automatically adjust your location</h3></div>
                         <div class="demo__subtitle" style="margin-left:10px; margin-bottom:5px">Note:</div>   
