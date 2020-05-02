@@ -119,6 +119,29 @@
         .mdc-snackbar__action:not(:disabled) {
             color: var(--mdc-theme-primary);
         }
+        
+
+        @media screen and (max-device-width: 640px){
+            .mdc-card {
+                width: 350px;
+            }
+        }
+        
+        @media screen and (min-device-width: 768px) and (max-device-width: 1024px){
+            #graph{
+                width: 600px;
+            }
+        }  
+        
+        @media screen and (min-width: 1024px){
+/*           .mdc-card {
+            width: 450px;
+          } */
+            #graph{
+                width: 800px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -167,20 +190,20 @@
         <div class="demo-image">
             <img src="img/gasPrice.svg" alt="GasPrice Logo" height="200" width="200">    
         </div>
-        <div class="demo__title">Click the menu button</div>
-        <div class="demo__subtitle"> at the top left of the page to begin.</div>
+        <div class="demo__title" style="text-align: center;">Click the menu button</div>
+        <div class="demo__subtitle"     style="text-align: center;"> at the top left of the page to begin.</div>
         <a id="dataLink" href="#graphs" class="demo__subtitle" style="margin-top: 20px;">... or take me straight to the  d a t a</a>
     </div>    
         
         
     <div id="location" class="view">
         <div class="demo__title">Location</div>
-        <div class="demo__subtitle">Select your region to inspect its gas information (US areas only)</div>
+        <div class="demo__subtitle" style="text-align: center;">Select your region to inspect its gas information <br />(US areas only)</div>
         <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
 <!--                 <div class="mdc-card__media mdc-card__media--16-9 demo-card__media" style="background-image: url(img/gasPrice.svg);"></div> -->
-                <div id="map" style="height: 300px; width: 450px;"></div>
-                <div class="demo-card__primary" style="width: 400px; height: 100px;">
+                <div id="map" style="height: 300px; width: 100%;"></div>
+                <div class="demo-card__primary" style="width: 100%; height: 100px;">
                  
                     <h2 id="selectedRegionHeader" class="demo-card__title mdc-typography mdc-typography--headline6" style="color: #FFFFFF; padding-left: 10px; margin-top: 8px; margin-bottom: 2px;">U.S.</h2>
                     <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2" style="color: #FFFFFF; padding-left: 10px; margin-top: 0px; margin-bottom: 8px;">Use the dropdown below to select a region,</h3></div>
@@ -200,10 +223,10 @@
             </div>
             </div>
         </div>
-        <div class="demo__subtitle">...Or use your geolocation</div>
+        <div class="demo__subtitle" style="text-align: center;">...Or use your geolocation</div>
         <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
-                <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2" style="color: #FFFFFF; padding-left: 10px; margin-top: 20px; margin-bottom: 8px;">Press "Get Geolocation" to automatically adjust your location</h3></div>
+                <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2" style="color: #FFFFFF; padding-left: 10px; padding-right: 10px; margin-top: 20px; margin-bottom: 8px;">Press "Get Geolocation" to automatically adjust your location</h3></div>
                         <div class="demo__subtitle" style="margin-left:10px; margin-bottom:5px">Note:</div>   
                         <div class="demo__subtitle" style="margin-left:10px; margin-bottom:5px">You must allow this site to use your geolocation.</div>    
             <button id="getGeolocation" class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-upgraded" title="Get Geolocation." 
@@ -212,10 +235,10 @@
         </div>
 
     <div id="graphs" class="view">
-        <h1 id="graphHeader">graphs</h1>
-        <h2 id="graphSecondary"></h2>
+        <h1 id="graphHeader" style="text-align: center;">graphs</h1>
+        <h2 id="graphSecondary" style="text-align: center;"></h2>
         
-        <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
+        <div id="chart" class="mdc-card mdc-elevation--z2" style="margin: auto; margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
                 <div class="demo__subtitle" style="margin-top: 20px; margin-left: 20px;">Data from 2006 till today.</div>
                 <div style="margin:40px">
@@ -224,7 +247,7 @@
             </div>
         </div>
         
-        <div class="mdc-card mdc-elevation--z2" style="margin-top:20px; margin-bottom:20px">
+        <div id="chart" class="mdc-card mdc-elevation--z2" style="margin: auto; margin-top:20px; margin-bottom:20px">
             <div class="mdc-card__primary-action demo-card__primary-action mdc-ripple-upgraded" tabindex="0">
                 <div class="demo__subtitle" style="margin-top: 20px; margin-left: 20px;">Data from the last 3 months.</div>
                 <div style="margin:40px">
