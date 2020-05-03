@@ -50,22 +50,8 @@ const createChart = () => {
             labels: labels,
             datasets: [{
                 label: 'Dollars Per Gallon',
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
                 fill: false,
                 data: datapoints,
                 borderWidth: 1
@@ -147,22 +133,8 @@ const createChart2 = () => {
             labels: labels2,
             datasets: [{
                 label: 'Dollars Per Gallon',
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
                 fill: false,
                 data: datapoints2,
                 borderWidth: 1
@@ -283,8 +255,22 @@ window.addEventListener("load", (e) =>{
     hide();
     let home = document.querySelector("#home");
     home.style.display = "block";
-    selectedRegion = locations[0].name;
-    grabLocationChartData();
+    const locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=240691";
+
+    fetch(locationsURL)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        locations = data.category.childcategories;
+        let datalist = document.querySelector("#regions");
+        for(let i = 0; i<locations.length; i++){
+            let option = document.createElement("option");
+            option.value = locations[i].name; 
+            datalist.append(option);
+        }
+        selectedRegion = locations[0].name;
+        grabLocationChartData();
+    });
 });
 
 document.querySelector("#gitHubTab").addEventListener("click", event => {
@@ -431,20 +417,6 @@ const grabData = (i) => {
     })
 }
 
-const locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=240691";
-
-fetch(locationsURL)
-.then(response => response.json())
-.then(data => {
-    console.log(data);
-    locations = data.category.childcategories;
-    let datalist = document.querySelector("#regions");
-    for(let i = 0; i<locations.length; i++){
-        let option = document.createElement("option");
-        option.value = locations[i].name; 
-        datalist.append(option);
-    }    
-})
 
 let knownGeos = [];
 //this function calls the geocode API to determine the lat and lng of each known location
