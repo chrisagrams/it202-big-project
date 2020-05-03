@@ -3,6 +3,7 @@ self.addEventListener("install", (e) => {
   e.waitUntil(caches.open("gasPrice_cache").then((cache) =>{
       return cache.addAll(
       [
+          './webmanifest.json',
           './index.html',
           './script.js',
           './img/gasPrice.svg',

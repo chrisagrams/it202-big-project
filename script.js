@@ -425,6 +425,10 @@ const grabData = (i) => {
             snackbar.open();
         })
     })
+    .catch(e => {
+            document.querySelector("#snackbarText").textContent = "You must be online to fetch this data.";
+            snackbar.open();
+    })
 }
 
 const locationsURL = "https://api.eia.gov/category/?api_key="+apiKey+"&category_id=240691";
@@ -497,6 +501,16 @@ const redrawMap = (selectedRegion) =>{
         mapCenter = data.results[0].geometry.location;
         console.log(mapCenter);
         initMap();
+    })
+    .catch(e => {
+        if(!window.navigator.onLine){
+            document.querySelector("#snackbarText").textContent = "You must be online to fetch this data.";
+            snackbar.open();
+        }
+        else {
+            document.querySelector("#snackbarText").textContent = "Something happened.";
+            snackbar.open();
+        }
     });
 }
 
